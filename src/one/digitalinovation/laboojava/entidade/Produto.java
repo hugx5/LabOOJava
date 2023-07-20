@@ -17,7 +17,7 @@ public abstract class Produto {
     private double preco;
 
     /**
-     * Quantidade comprada do produto.
+     * Quantidade comprada do produto
      */
     private int quantidade;
 
@@ -52,5 +52,5 @@ public abstract class Produto {
      * variar de acordo com o produto
      * @return valor do frete para o determinado produto
      */
-    //TODO Método de cálculo de frete
+    public abstract double calcularFrete();
 }

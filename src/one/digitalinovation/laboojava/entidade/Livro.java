@@ -1,5 +1,6 @@
 package one.digitalinovation.laboojava.entidade;
 
+
 import one.digitalinovation.laboojava.entidade.constantes.Genero;
 
 /**
@@ -39,7 +40,7 @@ public class Livro extends Produto {
      */
     @Override
     public double calcularFrete() {
-        return (getPreco() * getQuantidade()) * (1 + genero.getFator());
+        return getPreco() * getQuantidade() * (1 + genero.getFator());
     }
 
     @Override

@@ -11,7 +11,8 @@ import java.util.List;
 /**
  * Classe responsável por simular um banco de dados. Esta faz as inserções e exclusões da
  * aplicação. Atualizações não são permitidas para facilitar o funcionamento da aplicação.
- * @author thiago leite
+ *
+ *
  */
 public class Banco {
 
@@ -33,13 +34,13 @@ public class Banco {
     /**
      * Cliente cadastrado.
      */
-    private Cliente cliente;
+    private List<Cliente> clientes;
 
     public Banco() {
 
         this.produtos = new ArrayList<>();
         this.pedidos = new ArrayList<>();
-        this.cliente = new Cliente();
+        this.clientes = new ArrayList<>();
 
         this.cupons = new ArrayList<>();
         cupons.add(new Cupom("CUPOM2", 2));
@@ -47,12 +48,11 @@ public class Banco {
         cupons.add(new Cupom("CUPOM7", 7));
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public List<Cliente> getClientes() {
+        return clientes;
     }
 
-    public Cupom[] getCupons() {
-        return cupons.toArray(new Cupom[cupons.size()]);
+    public Cupom[] getCupons() {return cupons.toArray(new Cupom[cupons.size()]);
     }
 
     public Pedido[] getPedidos() {

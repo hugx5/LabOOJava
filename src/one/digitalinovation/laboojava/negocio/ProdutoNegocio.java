@@ -3,6 +3,7 @@ package one.digitalinovation.laboojava.negocio;
 import one.digitalinovation.laboojava.basedados.Banco;
 import one.digitalinovation.laboojava.entidade.Produto;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -54,8 +55,19 @@ public class ProdutoNegocio {
      * @param codigo Código de cadastro do produto
      */
     public void excluir(String codigo) {
-        //TODO Implementar a exclusão
+        List<Produto> produtos = List.of(bancoDados.getProdutos());
+
+        for (Produto produto : produtos) {
+            if (produto.getCodigo().equals(codigo)) {
+                produtos.remove(produto);
+                System.out.println("Produto removido com sucesso.");
+                return;
+            }
+        }
+
+        System.out.println("Produto não encontrado.");
     }
+
 
     /**
      * Obtem um produto a partir de seu código de cadastro.

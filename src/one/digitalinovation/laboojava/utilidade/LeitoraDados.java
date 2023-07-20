@@ -1,10 +1,7 @@
 package one.digitalinovation.laboojava.utilidade;
 
 import one.digitalinovation.laboojava.basedados.Banco;
-import one.digitalinovation.laboojava.entidade.Pedido;
-import one.digitalinovation.laboojava.entidade.Livro;
-import one.digitalinovation.laboojava.entidade.Produto;
-import one.digitalinovation.laboojava.entidade.Cupom;
+import one.digitalinovation.laboojava.entidade.*;
 import one.digitalinovation.laboojava.entidade.constantes.Genero;
 import one.digitalinovation.laboojava.negocio.ProdutoNegocio;
 
@@ -21,7 +18,7 @@ public final class LeitoraDados {
 	 * Classe do Java para manipular entradas via teclado.
 	 */
 	private static Scanner scanner;
-	
+
 	static {
 		scanner = new Scanner(System.in);
 	}
@@ -31,9 +28,9 @@ public final class LeitoraDados {
 	 * @return Dado lido
 	 */
 	public static String lerDado() {
-		
+
 		String texto = scanner.nextLine();
-		
+
 		return texto;
 	}
 
@@ -65,8 +62,21 @@ public final class LeitoraDados {
 	 * Ler os dados do caderno a ser cadastrado.
 	 * @return Um caderno a partir dos dados de entrada
 	 */
-	//TODO Método para ler o caderno
+	public static Caderno lerCaderno() {
 
+		System.out.println("Cadastrando caderno...");
+		Caderno caderno = new Caderno();
+
+		System.out.println("Digite o nome");
+		String nome = lerDado();
+		caderno.setNome(nome);
+
+		System.out.println("Digite o preço(padrão 0.0)");
+		String preco = lerDado();
+		caderno.setPreco(Double.parseDouble(preco));
+
+		return caderno;
+	}
 	/**
 	 * Ler os dados do pedido e retorna um objeto a partir destes.
 	 * @return Um pedido a partir dos dados de entrada

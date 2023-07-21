@@ -10,128 +10,154 @@ import java.util.Scanner;
 
 /**
  * Classe utilitária para auxiliar na leitura de entradas de dados via teclado.
+ *
  * @author thiago leite
  */
 public final class LeitoraDados {
 
-	/**
-	 * Classe do Java para manipular entradas via teclado.
-	 */
-	private static Scanner scanner;
+    /**
+     * Classe do Java para manipular entradas via teclado.
+     */
+    private static Scanner scanner;
 
-	static {
-		scanner = new Scanner(System.in);
-	}
+    static {
+        scanner = new Scanner(System.in);
+    }
 
-	/**
-	 * Ler um dado específico
-	 * @return Dado lido
-	 */
-	public static String lerDado() {
+    /**
+     * Ler um dado específico
+     *
+     * @return Dado lido
+     */
+    public static String lerDado() {
 
-		String texto = scanner.nextLine();
+        String texto = scanner.nextLine();
 
-		return texto;
-	}
+        return texto;
+    }
 
-	/**
-	 * Ler os dados do livro a ser cadastrado.
-	 * @return Um livro a partir dos dados de entrada
-	 */
-	public static Livro lerLivro() {
+    /**
+     * Ler os dados do livro a ser cadastrado.
+     *
+     * @return Um livro a partir dos dados de entrada
+     */
+    public static Livro lerLivro() {
 
-		System.out.println("Cadastrando livro...");
-		Livro livro = new Livro();
+        System.out.println("Cadastrando livro...");
+        Livro livro = new Livro();
 
-		System.out.println("Digite o nome");
-		String nome = lerDado();
-		livro.setNome(nome);
+        System.out.println("Digite o nome");
+        String nome = lerDado();
+        livro.setNome(nome);
 
-		System.out.println("Digite o gênero: DRAMA, SUSPENSE, ROMANCE");
-		String genero = lerDado();
-		livro.setGenero(Genero.valueOf(genero.toUpperCase()));
+        System.out.println("Digite o gênero: DRAMA, SUSPENSE, ROMANCE");
+        String genero = lerDado();
+        livro.setGenero(Genero.valueOf(genero.toUpperCase()));
 
-		System.out.println("Digite o preço(padrão 0.0)");
-		String preco = lerDado();
-		livro.setPreco(Double.parseDouble(preco));
+        System.out.println("Digite o preço(padrão 0.0)");
+        String preco = lerDado();
+        livro.setPreco(Double.parseDouble(preco));
 
-		return livro;
-	}
+        return livro;
+    }
 
-	/**
-	 * Ler os dados do caderno a ser cadastrado.
-	 * @return Um caderno a partir dos dados de entrada
-	 */
-	public static Caderno lerCaderno() {
+    /**
+     * Ler os dados do caderno a ser cadastrado.
+     *
+     * @return Um caderno a partir dos dados de entrada
+     */
+    public static Caderno lerCaderno() {
 
-		System.out.println("Cadastrando caderno...");
-		Caderno caderno = new Caderno();
+        System.out.println("Cadastrando caderno...");
+        Caderno caderno = new Caderno();
 
-		System.out.println("Digite o nome");
-		String nome = lerDado();
-		caderno.setNome(nome);
+        System.out.println("Digite o nome");
+        String nome = lerDado();
+        caderno.setNome(nome);
 
-		System.out.println("Digite o preço(padrão 0.0)");
-		String preco = lerDado();
-		caderno.setPreco(Double.parseDouble(preco));
+        System.out.println("Digite o preço(padrão 0.0)");
+        String preco = lerDado();
+        caderno.setPreco(Double.parseDouble(preco));
 
-		return caderno;
-	}
-	/**
-	 * Ler os dados do pedido e retorna um objeto a partir destes.
-	 * @return Um pedido a partir dos dados de entrada
-	 */
-	public static Pedido lerPedido(Banco banco) {
+        return caderno;
+    }
 
-		ProdutoNegocio produtoNegocio = new ProdutoNegocio(banco);
+    /**
+     * Ler os dados do pedido e retorna um objeto a partir destes.
+     *
+     * @return Um pedido a partir dos dados de entrada
+     */
+    public static Pedido lerPedido(Banco banco) {
 
-		System.out.println("Cadastrando pedido...");
-		Pedido pedido = new Pedido();
+        ProdutoNegocio produtoNegocio = new ProdutoNegocio(banco);
 
-		String opcao = "s";
-		do {
+        System.out.println("Cadastrando pedido...");
+        Pedido pedido = new Pedido();
 
-			System.out.println("Digite o código do produto(livro/Caderno)");
-			String codigo = lerDado();
+        String opcao = "s";
+        do {
 
-			Optional<Produto> resultado = produtoNegocio.consultar(codigo);
-			if (resultado.isPresent()) {
+            System.out.println("Digite o código do produto(livro/Caderno)");
+            String codigo = lerDado();
 
-				Produto produto = resultado.get();
+            Optional<Produto> resultado = produtoNegocio.consultar(codigo);
+            if (resultado.isPresent()) {
 
-				System.out.println("Digite a quantidade");
-				String quantidade = lerDado();
-				produto.setQuantidade(Integer.parseInt(quantidade));
+                Produto produto = resultado.get();
 
-				pedido.getProdutos().add(produto);
-			} else {
-				System.out.println("Produto inexistente. Escolha um produto válido");
-			}
+                System.out.println("Digite a quantidade");
+                String quantidade = lerDado();
+                produto.setQuantidade(Integer.parseInt(quantidade));
 
-			System.out.println("Deseja selecionar mais um produto? s/n");
-			opcao = lerDado();
-		} while("s".equals(opcao));
+                pedido.getProdutos().add(produto);
+            } else {
+                System.out.println("Produto inexistente. Escolha um produto válido");
+            }
 
-		return pedido;
-	}
+            System.out.println("Deseja selecionar mais um produto? s/n");
+            opcao = lerDado();
+        } while ("s".equals(opcao));
 
-	/**
-	 * Ler os dados do cupom e retorna um objeto a partir destes.
-	 * @return O cupom a partir dos dados de entrada
-	 */
-	public static Optional<Cupom> lerCupom(Banco banco) {
+        return pedido;
+    }
 
-		System.out.println("Caso queira utilizar algum cupom escolha entre: CUPOM2, CUPOM5, CUPOM7. Se não desejar, deixe em branco.");
+    /**
+     * Ler os dados do cupom e retorna um objeto a partir destes.
+     *
+     * @return O cupom a partir dos dados de entrada
+     */
+    public static Optional<Cupom> lerCupom(Banco banco) {
 
-		String desconto = lerDado();
+        System.out.println("Caso queira utilizar algum cupom escolha entre: CUPOM2, CUPOM5, CUPOM7. Se não desejar, deixe em branco.");
 
-		for (Cupom cupom: banco.getCupons()) {
-			if (cupom.getCodigo().equalsIgnoreCase(desconto)) {
-				return Optional.of(cupom);
-			}
-		}
+        String desconto = lerDado();
 
-		return Optional.empty();
-	}
+        for (Cupom cupom : banco.getCupons()) {
+            if (cupom.getCodigo().equalsIgnoreCase(desconto)) {
+                return Optional.of(cupom);
+            }
+        }
 
+        return Optional.empty();
+    }
+
+    public static Cliente lerNovoCliente() {
+
+        System.out.println("Cadastrando novo cliente...");
+
+        Cliente cliente = new Cliente();
+
+        System.out.println("Digite o nome:");
+        String nome = lerDado();
+        cliente.setNome(nome);
+
+        System.out.println("Digite o CPF:");
+        String cpf = lerDado();
+        cliente.setCpf(cpf);
+
+        // Continue pedindo ao usuário para fornecer os detalhes necessários...
+        // cliente.set...
+
+        return cliente;
+    }
 }

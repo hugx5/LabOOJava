@@ -52,6 +52,14 @@ public class Banco {
         return clientes;
     }
 
+    public void adicionarCliente(Cliente cliente) {
+        clientes.add(cliente);
+    }
+
+    public void removerCliente(int posicao) {
+        clientes.remove(posicao);
+    }
+
     public Cupom[] getCupons() {return cupons.toArray(new Cupom[cupons.size()]);
     }
 

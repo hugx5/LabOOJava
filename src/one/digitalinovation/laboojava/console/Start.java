@@ -11,6 +11,7 @@ import java.util.Optional;
 
 /**
  * Classe responsável por controlar a execução da aplicação.
+ *
  * @author thiago leite
  */
 public class Start {
@@ -25,15 +26,22 @@ public class Start {
 
     /**
      * Método utilitário para inicializar a aplicação.
+     *
      * @param args Parâmetros que podem ser passados para auxiliar na execução.
      */
     public static void main(String[] args) {
 
         System.out.println("Bem vindo ao e-Compras");
+        Cliente exemploCliente = new Cliente();
+        exemploCliente.setCpf("12345678909"); // Exemplo de CPF
+        exemploCliente.setNome("João"); // Exemplo de nome
+        // Continue a definir os outros atributos conforme necessário...
+
+        banco.adicionarCliente(exemploCliente);
 
         String opcao = "";
 
-        while(true) {
+        while (true) {
 
             if (clienteLogado == null) {
 
@@ -73,10 +81,13 @@ public class Start {
                     produtoNegocio.excluir(codigoLivro);
                     break;
                 case "3":
-                    //TODO Cadastrar Caderno
+                    Caderno caderno = LeitoraDados.lerCaderno();
+                    produtoNegocio.salvar(caderno);
                     break;
                 case "4":
-                    //TODO Excluir Caderno
+                    System.out.println("Digite o código do caderno");
+                    String codigoCaderno = LeitoraDados.lerDado();
+                    produtoNegocio.excluir(codigoCaderno);
                     break;
                 case "5":
                     Pedido pedido = LeitoraDados.lerPedido(banco);
@@ -97,7 +108,21 @@ public class Start {
                     produtoNegocio.listarTodos();
                     break;
                 case "8":
-                    //TODO Listar todos os Pedidos
+                    Pedido[] pedidos = banco.getPedidos();
+                    if (pedidos.length == 0) {
+                        System.out.println("Não existem pedidos cadastrados.");
+                    } else {
+                        boolean existemPedidosDoCliente = false;
+                        for (Pedido p : pedidos) {
+                            if (p.getCliente().getCpf().equals(clienteLogado.getCpf())) {
+                                System.out.println(p);
+                                existemPedidosDoCliente = true;
+                            }
+                        }
+                        if (!existemPedidosDoCliente) {
+                            System.out.println("Não existem pedidos para este cliente.");
+                        }
+                    }
                     break;
                 case "9":
                     System.out.println(String.format("Volte sempre %s!", clienteLogado.getNome()));
@@ -106,6 +131,10 @@ public class Start {
                 case "10":
                     System.out.println("Aplicação encerrada.");
                     System.exit(0);
+                    break;
+                case "11":
+                    Cliente novoCliente = LeitoraDados.lerNovoCliente();
+                    banco.adicionarCliente(novoCliente);
                     break;
                 default:
                     System.out.println("Opção inválida.");
@@ -116,6 +145,7 @@ public class Start {
 
     /**
      * Procura o usuário na base de dados.
+     *
      * @param cpf CPF do usuário que deseja logar na aplicação
      */
     private static void identificarUsuario(String cpf) {
@@ -123,13 +153,20 @@ public class Start {
         Optional<Cliente> resultado = clienteNegocio.consultar(cpf);
 
         if (resultado.isPresent()) {
-
             Cliente cliente = resultado.get();
             System.out.println(String.format("Olá %s! Você está logado.", cliente.getNome()));
             clienteLogado = cliente;
         } else {
-            System.out.println("Usuário não cadastrado.");
-            System.exit(0);
+            System.out.println("Usuário não cadastrado. Criando um novo usuário...");
+            Cliente novoCliente = new Cliente();
+            novoCliente.setCpf(cpf);
+            System.out.println("Digite o nome do cliente:");
+            String nome = LeitoraDados.lerDado();
+            novoCliente.setNome(nome);
+            // Continue a definir os outros atributos conforme necessário...
+            banco.adicionarCliente(novoCliente);
+            System.out.println(String.format("Olá %s! Você está logado.", novoCliente.getNome()));
+            clienteLogado = novoCliente;
         }
     }
 }
